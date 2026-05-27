@@ -740,7 +740,7 @@ const barData = Object.keys(jobStats).map((job) => ({
 
               onClick={() =>
                 setSelectedResume(
-                  `http://localhost:8080/api/user/resume/view?fileName=${app.resumeFileName}`
+                  `https://jobportal-backend-tm6k.onrender.com/api/user/resume/view?fileName=${app.resumeFileName}`
                 )
               }
 
@@ -763,7 +763,7 @@ const barData = Object.keys(jobStats).map((job) => ({
               onClick={() => {
 
                 window.open(
-                  `http://localhost:8080/api/user/resume?fileName=${app.resumeFileName}`,
+                  `https://jobportal-backend-tm6k.onrender.com/api/user/resume?fileName=${app.resumeFileName}`,
                   "_blank"
                 );
               }}

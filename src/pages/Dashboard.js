@@ -810,7 +810,7 @@ const compareResumeWithJob = async (
                     onClick={() => {
 
                       window.open(
-                        `http://localhost:8080/api/user/resume/view?fileName=${app.resumeFileName}`,
+                        `https://jobportal-backend-tm6k.onrender.com/api/user/resume/view?fileName=${app.resumeFileName}`,
                         "_blank"
                       );
                     }}
