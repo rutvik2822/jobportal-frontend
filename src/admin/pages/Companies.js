@@ -1,10 +1,15 @@
 import { useEffect, useState } from "react";
 import { getCompanies } from "../../services/companyService";
+import CompanyModal from "../components/CompanyModal";
 
 function Companies() {
 
   const [companies, setCompanies] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showModal, setShowModal] = useState(false);
+
+  const [selectedCompany, setSelectedCompany] = useState(null);
+  const [modalMode, setModalMode] = useState("add");
 
   useEffect(() => {
     loadCompanies();
@@ -39,10 +44,15 @@ function Companies() {
         </h1>
 
         <button
-          className="bg-cyan-500 hover:bg-cyan-600 text-white px-5 py-3 rounded-xl"
-        >
-          + Add Company
-        </button>
+            onClick={() => {
+                setModalMode("add");
+                setSelectedCompany(null);
+                setShowModal(true);
+            }}
+            className="bg-cyan-500 hover:bg-cyan-600 text-white px-5 py-3 rounded-xl"
+            >
+            + Add Company
+            </button>
 
       </div>
 
@@ -105,8 +115,15 @@ function Companies() {
 
                   <td className="p-4">
 
-                    <button className="text-blue-600 mr-4">
-                      Edit
+                    <button
+                        className="text-blue-600 mr-4"
+                        onClick={() => {
+                            setModalMode("edit");
+                            setSelectedCompany(company);
+                            setShowModal(true);
+                        }}
+                    >
+                        Edit
                     </button>
 
                     <button className="text-red-600">
@@ -126,6 +143,14 @@ function Companies() {
         </div>
 
       )}
+
+      <CompanyModal
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        onSuccess={loadCompanies}
+        company={selectedCompany}
+        mode={modalMode}
+    />  
 
     </div>
   );
