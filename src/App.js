@@ -2,70 +2,82 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
-import AdminDashboard from "./pages/AdminDashboard";
 import Register from "./pages/Register";
 import RecruiterDashboard from "./pages/RecruiterDashboard";
+import Home from "./pages/Home";
+import AdminDashboard from "./admin/pages/Dashboard";
+
+import Companies from "./admin/pages/Companies";
+import Recruiters from "./admin/pages/Recruiters";
+import Jobs from "./admin/pages/Jobs";
+import Applications from "./admin/pages/Applications";
+import AdminLayout from "./admin/AdminLayout";
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import ProtectedRoute from "./components/ProtectedRoute";
-import Home from "./pages/Home";
 
 function App() {
-
   return (
-
     <BrowserRouter>
-    <>
+
       <Routes>
 
-  <Route path="/" element={<Home />} />
+        <Route path="/" element={<Home />} />
 
-  <Route path="/login" element={<Login />} />
+        <Route path="/login" element={<Login />} />
 
-  <Route path="/register" element={<Register />} />
+        <Route path="/register" element={<Register />} />
 
-  {/* USER */}
+        {/* USER */}
 
-  <Route
-    path="/dashboard"
-    element={
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute role="USER">
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
 
-      <ProtectedRoute role="USER">
+        {/* RECRUITER */}
 
-        <Dashboard />
+        <Route
+          path="/recruiter"
+          element={
+            <ProtectedRoute role="RECRUITER">
+              <RecruiterDashboard />
+            </ProtectedRoute>
+          }
+        />
 
-      </ProtectedRoute>
-    }
-  />
+        {/* SUPER ADMIN */}
 
-  {/* ADMIN */}
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute role="SUPER_ADMIN">
+              <AdminLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route index element={<AdminDashboard />} />
 
-  <Route
-    path="/admin"
-    element={
+          <Route path="companies" element={<Companies />} />
 
-      <ProtectedRoute role="SUPER_ADMIN">
+          <Route path="recruiters" element={<Recruiters />} />
 
-        <AdminDashboard />
+          <Route path="jobs" element={<Jobs />} />
 
-      </ProtectedRoute>
-    }
-  />
+          <Route path="applications" element={<Applications />} />
 
-  <Route
-  path="/recruiter"
-  element={
-    <ProtectedRoute role="RECRUITER">
-      <RecruiterDashboard />
-    </ProtectedRoute>
-  }
-/>
+        </Route>
 
-</Routes>
+      </Routes>
+
       <ToastContainer position="top-right" />
-      </>
+
     </BrowserRouter>
   );
 }

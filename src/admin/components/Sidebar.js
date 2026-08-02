@@ -1,3 +1,5 @@
+import { NavLink } from "react-router-dom";
+
 function Sidebar() {
   return (
     <aside className="w-64 bg-slate-900 text-white">
@@ -8,25 +10,60 @@ function Sidebar() {
 
       <nav className="p-4 space-y-2">
 
-        <button className="w-full text-left p-3 rounded hover:bg-slate-700">
-          Dashboard
-        </button>
+        <NavLink
+  to="/admin"
+  className={({ isActive }) =>
+    `block p-3 rounded ${
+      isActive ? "bg-cyan-500 text-black" : "hover:bg-slate-700"
+    }`
+  }
+>
+            Dashboard
+            </NavLink>
 
-        <button className="w-full text-left p-3 rounded hover:bg-slate-700">
-          Companies
-        </button>
+                <NavLink
+            to="/admin/companies"
+            className={({ isActive }) =>
+                `block p-3 rounded ${
+                isActive ? "bg-cyan-500 text-black" : "hover:bg-slate-700"
+                }`
+            }
+            >
+            Companies
+            </NavLink>
 
-        <button className="w-full text-left p-3 rounded hover:bg-slate-700">
-          Recruiters
-        </button>
+            <NavLink
+            to="/admin/recruiters"
+            className={({ isActive }) =>
+                `block p-3 rounded ${
+                isActive ? "bg-cyan-500 text-black" : "hover:bg-slate-700"
+                }`
+            }
+            >
+            Recruiters
+            </NavLink>
 
-        <button className="w-full text-left p-3 rounded hover:bg-slate-700">
-          Jobs
-        </button>
+            <NavLink
+            to="/admin/jobs"
+            className={({ isActive }) =>
+                `block p-3 rounded ${
+                isActive ? "bg-cyan-500 text-black" : "hover:bg-slate-700"
+                }`
+            }
+            >
+            Jobs
+            </NavLink>
 
-        <button className="w-full text-left p-3 rounded hover:bg-slate-700">
-          Applications
-        </button>
+            <NavLink
+            to="/admin/applications"
+            className={({ isActive }) =>
+                `block p-3 rounded ${
+                isActive ? "bg-cyan-500 text-black" : "hover:bg-slate-700"
+                }`
+            }
+            >
+            Applications
+            </NavLink>
 
       </nav>
 
