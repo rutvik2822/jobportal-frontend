@@ -8,6 +8,7 @@ function CompanyModal({ isOpen, onClose, onSuccess, company, mode }) {
     companyName: "",
     website: "",
     location: "",
+    logoUrl: "",
     description: "",
   });
   useEffect(() => {
@@ -15,18 +16,20 @@ function CompanyModal({ isOpen, onClose, onSuccess, company, mode }) {
     if (mode === "edit" && company) {
 
         setForm({
-            companyName: company.companyName,
-            website: company.website,
-            location: company.location,
-            description: company.description
-        });
+          companyName: company.companyName,
+          website: company.website,
+          location: company.location,
+          logoUrl: company.logoUrl || "",
+          description: company.description
+      });
 
     } else {
 
-        setForm({
+       setForm({
             companyName: "",
             website: "",
             location: "",
+            logoUrl: "",
             description: ""
         });
 
@@ -92,6 +95,18 @@ function CompanyModal({ isOpen, onClose, onSuccess, company, mode }) {
           onChange={(e) =>
             setForm({ ...form, website: e.target.value })
           }
+        />
+
+        <input
+            className="w-full border rounded-lg p-3 mb-4"
+            placeholder="Logo URL"
+            value={form.logoUrl}
+            onChange={(e) =>
+                setForm({
+                    ...form,
+                    logoUrl: e.target.value,
+                })
+            }
         />
 
         <input

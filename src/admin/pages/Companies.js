@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
-import { getCompanies } from "../../services/companyService";
+import { getCompanies, deleteCompany } from "../../services/companyService";
 import CompanyModal from "../components/CompanyModal";
+import CompanyDetailsModal from "../components/CompanyDetailsModal";
+import toast from "react-hot-toast";
 
 function Companies() {
 
@@ -9,6 +11,7 @@ function Companies() {
   const [showModal, setShowModal] = useState(false);
 
   const [selectedCompany, setSelectedCompany] = useState(null);
+  const [detailsOpen, setDetailsOpen] = useState(false);
   const [modalMode, setModalMode] = useState("add");
 
   useEffect(() => {
@@ -25,6 +28,32 @@ function Companies() {
       setLoading(false);
     }
   };
+
+  const handleDelete = async (id) => {
+
+    const confirmed = window.confirm(
+        "Are you sure you want to delete this company?"
+    );
+
+    if (!confirmed) return;
+
+    try {
+
+        await deleteCompany(id);
+
+        toast.success("Company deleted successfully");
+
+        loadCompanies();
+
+    } catch (error) {
+
+        console.error(error);
+
+        toast.error("Failed to delete company");
+
+    }
+
+};
 
   if (loading) {
     return (
@@ -116,6 +145,15 @@ function Companies() {
                   <td className="p-4">
 
                     <button
+                        className="text-green-600 mr-3"
+                        onClick={() => {
+                            setSelectedCompany(company);
+                            setDetailsOpen(true);
+                        }}
+                    >
+                        View
+                    </button>
+                    <button
                         className="text-blue-600 mr-4"
                         onClick={() => {
                             setModalMode("edit");
@@ -126,8 +164,11 @@ function Companies() {
                         Edit
                     </button>
 
-                    <button className="text-red-600">
-                      Delete
+                    <button
+                        className="text-red-600"
+                        onClick={() => handleDelete(company.id)}
+                    >
+                        Delete
                     </button>
 
                   </td>
@@ -151,6 +192,15 @@ function Companies() {
         company={selectedCompany}
         mode={modalMode}
     />  
+
+    <CompanyDetailsModal
+    company={selectedCompany}
+    isOpen={detailsOpen}
+    onClose={() => {
+        setDetailsOpen(false);
+        setSelectedCompany(null);
+    }}
+    />
 
     </div>
   );
