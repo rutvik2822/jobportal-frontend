@@ -4,6 +4,7 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import AdminDashboard from "./pages/AdminDashboard";
 import Register from "./pages/Register";
+import RecruiterDashboard from "./pages/RecruiterDashboard";
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -45,13 +46,22 @@ function App() {
     path="/admin"
     element={
 
-      <ProtectedRoute role="ADMIN">
+      <ProtectedRoute role="SUPER_ADMIN">
 
         <AdminDashboard />
 
       </ProtectedRoute>
     }
   />
+
+  <Route
+  path="/recruiter"
+  element={
+    <ProtectedRoute role="RECRUITER">
+      <RecruiterDashboard />
+    </ProtectedRoute>
+  }
+/>
 
 </Routes>
       <ToastContainer position="top-right" />

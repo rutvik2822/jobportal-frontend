@@ -34,12 +34,28 @@ function Login() {
       toast.success("Login Successful ");
 
       setTimeout(() => {
-        if (decoded.role === "ADMIN") {
-          window.location.href = "/admin";
-        } else {
-          window.location.href = "/dashboard";
-        }
-      }, 1000);
+
+  switch (decoded.role) {
+
+    case "SUPER_ADMIN":
+      window.location.href = "/admin";
+      break;
+
+    case "RECRUITER":
+      window.location.href = "/recruiter";
+      break;
+
+    case "USER":
+      window.location.href = "/dashboard";
+      break;
+
+    default:
+      localStorage.removeItem("token");
+      toast.error("Invalid user role");
+      window.location.href = "/login";
+  }
+
+}, 1000);
 
     } catch (err) {
 
