@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { getCompanies, deleteCompany } from "../../services/companyService";
 import CompanyModal from "../components/CompanyModal";
 import CompanyDetailsModal from "../components/CompanyDetailsModal";
+import ConfirmDeleteModal from "../components/ConfirmDeleteModal";
 import toast from "react-hot-toast";
 
 function Companies() {
@@ -12,6 +13,9 @@ function Companies() {
 
   const [selectedCompany, setSelectedCompany] = useState(null);
   const [detailsOpen, setDetailsOpen] = useState(false);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [companyToDelete, setCompanyToDelete] = useState(null);
+  const [deleteLoading, setDeleteLoading] = useState(false);
   const [modalMode, setModalMode] = useState("add");
 
   useEffect(() => {
@@ -29,19 +33,21 @@ function Companies() {
     }
   };
 
-  const handleDelete = async (id) => {
+  const handleDelete = async () => {
 
-    const confirmed = window.confirm(
-        "Are you sure you want to delete this company?"
-    );
-
-    if (!confirmed) return;
+    if (!companyToDelete) return;
 
     try {
 
-        await deleteCompany(id);
+        setDeleteLoading(true);
+
+        await deleteCompany(companyToDelete.id);
 
         toast.success("Company deleted successfully");
+
+        setDeleteModalOpen(false);
+
+        setCompanyToDelete(null);
 
         loadCompanies();
 
@@ -49,12 +55,18 @@ function Companies() {
 
         console.error(error);
 
-        toast.error("Failed to delete company");
+        toast.error(
+            error.response?.data ||
+            "Failed to delete company"
+        );
+
+    } finally {
+
+        setDeleteLoading(false);
 
     }
 
 };
-
   if (loading) {
     return (
       <h2 className="text-2xl font-semibold">
@@ -166,7 +178,10 @@ function Companies() {
 
                     <button
                         className="text-red-600"
-                        onClick={() => handleDelete(company.id)}
+                        onClick={() => {
+                            setCompanyToDelete(company);
+                            setDeleteModalOpen(true);
+                        }}
                     >
                         Delete
                     </button>
@@ -202,6 +217,24 @@ function Companies() {
     }}
     />
 
+<ConfirmDeleteModal
+    isOpen={deleteModalOpen}
+    loading={deleteLoading}
+    title="Delete Company"
+    message={
+        companyToDelete
+            ? `Are you sure you want to delete "${companyToDelete.companyName}"? This action cannot be undone.`
+            : ""
+    }
+    onClose={() => {
+
+        setDeleteModalOpen(false);
+
+        setCompanyToDelete(null);
+
+    }}
+    onConfirm={handleDelete}
+/>
     </div>
   );
 }
