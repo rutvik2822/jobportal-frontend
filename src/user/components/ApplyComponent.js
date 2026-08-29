@@ -1,8 +1,8 @@
 import { useState, useContext } from "react";
 
-import API from "../services/api";
+import API from "../../services/api";
 
-import { ThemeContext } from "../context/ThemeContext";
+import { ThemeContext } from "../../context/ThemeContext";
 
 import { motion } from "framer-motion";
 

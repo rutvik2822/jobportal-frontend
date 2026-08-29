@@ -10,14 +10,15 @@ function Sidebar() {
 
       <nav className="p-4 space-y-2">
 
-        <NavLink
-  to="/admin"
-  className={({ isActive }) =>
-    `block p-3 rounded ${
-      isActive ? "bg-cyan-500 text-black" : "hover:bg-slate-700"
-    }`
-  }
->
+                    <NavLink
+              to="/admin"
+              end
+              className={({ isActive }) =>
+                `block p-3 rounded ${
+                  isActive ? "bg-cyan-500 text-black" : "hover:bg-slate-700"
+                }`
+              }
+            >
             Dashboard
             </NavLink>
 

@@ -27,6 +27,11 @@ function Navbar() {
     window.location.href = "/";
   };
 
+  const handleProfile = () => {
+
+    window.location.href = "/profile";
+  };
+
   return (
 
     <motion.nav
@@ -35,29 +40,30 @@ function Navbar() {
       animate={{ y: 0 }}
       transition={{ duration: 0.5 }}
 
-     className={`
-  flex
-  justify-between
-  items-center
-  px-8
-  py-4
-  backdrop-blur-lg
-  border-b
-  sticky
-  top-0
-  z-50
-  transition-all
-  duration-500
+      className={`
+        flex
+        justify-between
+        items-center
+        px-8
+        py-4
+        backdrop-blur-lg
+        border-b
+        sticky
+        top-0
+        z-50
+        transition-all
+        duration-500
 
-  ${
-    darkMode
-      ? "bg-white/10 border-white/10 text-white"
-      : "bg-white shadow-md text-black"
-  }
-`}
+        ${
+          darkMode
+            ? "bg-white/10 border-white/10 text-white"
+            : "bg-white shadow-md text-black"
+        }
+      `}
     >
 
       {/* LEFT */}
+
       <div>
 
         <h1 className="text-2xl font-bold tracking-wide">
@@ -66,10 +72,31 @@ function Navbar() {
 
       </div>
 
+
       {/* RIGHT */}
+
       <div className="flex items-center gap-5">
 
+        {/* PROFILE */}
+
+        <button
+          onClick={handleProfile}
+          className="
+            px-4
+            py-2
+            rounded-lg
+            font-semibold
+            transition
+            hover:bg-cyan-400
+            hover:text-black
+          "
+        >
+          Profile
+        </button>
+
+
         {/* ROLE */}
+
         <span className="
           bg-cyan-400
           text-black
@@ -82,20 +109,24 @@ function Navbar() {
           {role}
         </span>
 
+
         {/* DARK MODE */}
+
         <button
-  onClick={() => setDarkMode(!darkMode)}
-  className="
-    text-2xl
-    text-yellow-300
-    hover:scale-110
-    transition
-  "
->
+          onClick={() => setDarkMode(!darkMode)}
+          className="
+            text-2xl
+            text-yellow-300
+            hover:scale-110
+            transition
+          "
+        >
           {darkMode ? <FaSun /> : <FaMoon />}
         </button>
 
+
         {/* LOGOUT */}
+
         <button
           onClick={handleLogout}
           className="

@@ -1,17 +1,17 @@
 import {
-  useEffect,
-  useState,
-  useContext,
-  useRef
+    useEffect,
+    useState,
+    useContext,
+    useRef
 } from "react";
 
-import API from "../services/api";
+import API from "../../services/api";
 
 import ApplyComponent from "../components/ApplyComponent";
 
-import Navbar from "../components/Navbar";
+import Navbar from "../../components/Navbar";
 
-import { ThemeContext } from "../context/ThemeContext";
+import { ThemeContext } from "../../context/ThemeContext";
 
 import { motion } from "framer-motion";
 
@@ -279,6 +279,12 @@ const compareResumeWithJob = async (
     job.skillsRequired.toLowerCase().includes(search.toLowerCase())
   );
 
+  const hasApplied = (jobId) => {
+    return applications.some(
+        (application) => Number(application.jobId) === Number(jobId)
+    );
+  };
+
   return (
 
     <>
@@ -503,15 +509,38 @@ const compareResumeWithJob = async (
               {/* APPLY */}
               <div className="mt-8">
 
+                {hasApplied(job.id) ? (
+
+                <div
+                    className="
+                        w-full
+                        py-3
+                        rounded-2xl
+                        font-bold
+                        text-lg
+                        text-center
+                        bg-green-500/20
+                        text-green-400
+                        border
+                        border-green-400/30
+                    "
+                >
+                    ✓ Already Applied
+                </div>
+
+            ) : (
+
                 <ApplyComponent
 
-                  jobId={job.id}
+                    jobId={job.id}
 
-                  uploadedResumes={uploadedResumes}
+                    uploadedResumes={uploadedResumes}
 
-                  setUploadedResumes={setUploadedResumes}
+                    setUploadedResumes={setUploadedResumes}
 
                 />
+
+            )}
 
                 {/* AI BUTTON */}
                 <motion.button
@@ -771,15 +800,15 @@ const compareResumeWithJob = async (
                   </h2>
 
                   <p className="mb-5">
+                        AI Match Score:
 
-                    AI Match Score:
-
-                    <span className="ml-2 font-bold text-cyan-400">
-                      {app.matchScore}%
-                    </span>
-
-                  </p>
-
+                        <span className="ml-2 font-bold text-cyan-400">
+                          {Number.isInteger(Number(app.matchScore))
+                            ? Number(app.matchScore)
+                            : Number(app.matchScore).toFixed(2)}
+                          %
+                        </span>
+                      </p>
                   <div className="mb-6">
 
                     <span

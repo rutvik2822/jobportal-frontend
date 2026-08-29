@@ -1,7 +1,10 @@
-import { useContext } from "react";
+import { useEffect, useState, useContext } from "react";
+import API from "../../services/api";
+import toast from "react-hot-toast";
 import { ThemeContext } from "../../context/ThemeContext";
 import { FaUsers, FaCheckCircle, FaTimesCircle, FaClock } from "react-icons/fa";
 import { motion } from "framer-motion";
+
 
 import {
   ResponsiveContainer,
@@ -21,25 +24,68 @@ function Dashboard() {
 
   const { darkMode } = useContext(ThemeContext);
 
-  // Temporary data
-  const total = 0;
-  const accepted = 0;
-  const rejected = 0;
-  const pending = 0;
+  const [dashboard, setDashboard] = useState(null);
 
-  const pieData = [
-    { name: "Accepted", value: accepted },
-    { name: "Rejected", value: rejected },
-    { name: "Pending", value: pending },
-  ];
+const [loading, setLoading] = useState(true);
 
-  const COLORS = [
-    "#22c55e",
-    "#ef4444",
-    "#facc15"
-  ];
+useEffect(() => {
+  loadDashboard();
+}, []);
 
-  const barData = [];
+const loadDashboard = async () => {
+
+  try {
+
+    const response = await API.get("/admin/dashboard");
+
+    setDashboard(response.data);
+
+  } catch (error) {
+
+    console.error("Failed to load admin dashboard", error);
+
+    toast.error("Failed to load dashboard");
+
+  } finally {
+
+    setLoading(false);
+
+  }
+
+};
+
+  if (loading) {
+
+  return (
+    <h2 className="text-2xl font-semibold">
+      Loading Dashboard...
+    </h2>
+  );
+
+}
+
+const total = dashboard?.totalApplications || 0;
+
+const accepted = dashboard?.accepted || 0;
+
+const rejected = dashboard?.rejected || 0;
+
+const pending = dashboard?.pending || 0;
+
+const pieData = [
+  { name: "Accepted", value: accepted },
+  { name: "Rejected", value: rejected },
+  { name: "Pending", value: pending },
+];
+
+const COLORS = [
+  "#22c55e",
+  "#ef4444",
+  "#facc15"
+];
+
+const barData =
+  dashboard?.applicationsPerJob || [];
 
   return (
     <>
