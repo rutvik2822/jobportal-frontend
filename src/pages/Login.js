@@ -115,6 +115,15 @@ function Login() {
           onChange={(e) => setPassword(e.target.value)}
         />
 
+        <div className="text-right -mt-3 mb-5">
+          <Link
+            to="/forgot-password"
+            className="text-cyan-400 hover:text-cyan-300 font-semibold text-sm"
+          >
+            Forgot Password?
+          </Link>
+        </div>
+
         <motion.button
           whileHover={{ scale: 1.03 }}
           whileTap={{ scale: 0.95 }}
